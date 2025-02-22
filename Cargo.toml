@@ -1,5 +1,7 @@
 [workspace]
 members = [
-  "gain_plugin",
+  "basic_plugin",
   "xtask"
 ]
+
+workspace.resolver = "1"
