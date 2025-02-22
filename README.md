@@ -37,6 +37,8 @@ cd PhatBass-VST3
 3. Install dependencies:
 cargo build --release
 
+4. Export Standalone and VST3
+
 ## Features
 
 - 🎧 Audio processing
