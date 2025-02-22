@@ -1,0 +1,33 @@
+[package]
+name = "basic_plugin"
+version = "0.1.0"
+edition = "2021"
+authors = ["Patrice Bronckers"]
+description = "A simple Base plugin"
+
+[lib]
+# cdylib is for VST3 (?)
+# lib is for standalone
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+nih_plug = { git = "https://github.com/robbert-vdh/nih-plug.git", features = ["assert_process_allocs", "standalone"] }
+nih_plug_iced = { git = "https://github.com/robbert-vdh/nih-plug.git" }
+nih_plug_assets = { git = "https://github.com/robbert-vdh/nih_plug_assets.git" }
+
+raw-window-handle = "0.6.2"
+
+atomic_refcell = "0.1"
+baseview = { git = "https://github.com/RustAudio/baseview.git", rev = "1d9806d5bd92275d0d8142d9c9c90198757b9b25" }
+crossbeam = "0.8"
+# This targets iced 0.4
+iced_baseview = { git = "https://github.com/robbert-vdh/iced_baseview.git", branch = "feature/update-baseview", default-features = false }
+# To make the state persistable
+serde = { version = "1.0", features = ["derive"] }
+
+
+[features]
+default = ["opengl"]
+
+opengl = ["iced_baseview/glow"]
+debug = ["iced_baseview/debug"]

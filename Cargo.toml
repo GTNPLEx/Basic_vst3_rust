@@ -1,5 +1,5 @@
 [workspace]
 members = [
-  "gain_plugin",
+  "basic_plugin",
   "xtask"
 ]

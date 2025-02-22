@@ -5,25 +5,25 @@ use std::sync::Arc;
 
 mod editor;
 
-pub struct Gain {
-    parameters: Arc<GainParameters>,
+pub struct Basic {
+    parameters: Arc<BasicParameters>,
 }
 
 #[derive(Params)]
-struct GainParameters {
+struct BasicParameters {
     #[id = "gain"]
     pub gain: FloatParam,
 }
 
-impl Default for Gain {
+impl Default for Basic {
     fn default() -> Self {
         Self {
-            parameters: Arc::new(GainParameters::default()),
+            parameters: Arc::new(BasicParameters::default()),
         }
     }
 }
 
-impl Default for GainParameters {
+impl Default for BasicParameters {
     fn default() -> Self {
         Self {
             gain: FloatParam::new("Gain", 1.0, FloatRange::Linear { min: 0.0, max: 1.0 }),
@@ -31,11 +31,11 @@ impl Default for GainParameters {
     }
 }
 
-impl Plugin for Gain {
-    const NAME: &'static str = "WolfSound's Gain Plugin in Rust";
-    const VENDOR: &'static str = "WolfSound";
-    const URL: &'static str = "http://thewolfsound.com";
-    const EMAIL: &'static str = "info@example.com";
+impl Plugin for Basic {
+    const NAME: &'static str = "PhatBass's Basic Plugin ";
+    const VENDOR: &'static str = "PhatBass";
+    const URL: &'static str = "https://phatbass.com";
+    const EMAIL: &'static str = "info@phatbass.com";
     const VERSION: &'static str = env!("CARGO_PKG_VERSION");
     const AUDIO_IO_LAYOUTS: &'static [nih_plug::prelude::AudioIOLayout] = &[
         AudioIOLayout {
@@ -60,8 +60,8 @@ impl Plugin for Gain {
     fn process(
         &mut self,
         buffer: &mut nih_plug::prelude::Buffer,
-        aux: &mut nih_plug::prelude::AuxiliaryBuffers,
-        context: &mut impl nih_plug::prelude::ProcessContext<Self>,
+        _aux: &mut nih_plug::prelude::AuxiliaryBuffers,
+        _context: &mut impl nih_plug::prelude::ProcessContext<Self>,
     ) -> nih_plug::prelude::ProcessStatus {
 
         for channel_samples in buffer.iter_samples() {
@@ -86,17 +86,17 @@ impl Plugin for Gain {
         Box::new(|_| ())
     }
 
-    fn editor(&mut self, async_executor: nih_plug::prelude::AsyncExecutor<Self>) -> Option<Box<dyn nih_plug::prelude::Editor>> {
+    fn editor(&mut self, _async_executor: nih_plug::prelude::AsyncExecutor<Self>) -> Option<Box<dyn nih_plug::prelude::Editor>> {
         editor::create()
     }
 
-    fn filter_state(state: &mut nih_plug::prelude::PluginState) {}
+    fn filter_state(_state: &mut nih_plug::prelude::PluginState) {}
 
     fn initialize(
         &mut self,
-        audio_io_layout: &nih_plug::prelude::AudioIOLayout,
-        buffer_config: &nih_plug::prelude::BufferConfig,
-        context: &mut impl nih_plug::prelude::InitContext<Self>,
+        _audio_io_layout: &nih_plug::prelude::AudioIOLayout,
+        _buffer_config: &nih_plug::prelude::BufferConfig,
+        _context: &mut impl nih_plug::prelude::InitContext<Self>,
     ) -> bool {
         true
     }
@@ -106,12 +106,12 @@ impl Plugin for Gain {
     fn deactivate(&mut self) {}
 }
 
-impl Vst3Plugin for Gain {
-    const VST3_CLASS_ID: [u8; 16] = *b"WolfSoundGain001";
+impl Vst3Plugin for Basic {
+    const VST3_CLASS_ID: [u8; 16] = *b"PhatbassGain0001";
 
     const VST3_SUBCATEGORIES: &'static [Vst3SubCategory] = &[
         Vst3SubCategory::Fx, Vst3SubCategory::Tools
     ];
 }
 
-nih_export_vst3!(Gain);
+nih_export_vst3!(Basic);
