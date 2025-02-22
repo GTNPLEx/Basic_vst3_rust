@@ -27,7 +27,7 @@ Key features include:
 
 To start using PhatBass VST3, follow these steps:
 
-1. Clone the repository: git clone:
+1. Clone the repository: git clone https://github.com/GTNPLEx/Basic_vst3_rust.git
    
 2. Navigate to the project directory:
 
