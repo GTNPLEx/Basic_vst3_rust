@@ -12,7 +12,6 @@
   - [Usage](#usage)
   - [Building from Source](#building-from-source)
   - [Contributing](#contributing)
-  - [License](#license)
 
 ## Project Overview
 
@@ -71,10 +70,6 @@ We welcome contributions! To contribute:
 4. Update documentation if necessary
 5. Push your changes to a branch
 6. Open a pull request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
