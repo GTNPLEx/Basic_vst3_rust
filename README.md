@@ -34,9 +34,12 @@ To start using PhatBass VST3, follow these steps:
 cd PhatBass-VST3
 
 3. Install dependencies:
-cargo build --release
+
+run cargo build --release
 
 4. Export Standalone and VST3
+
+run cargo xtask bundle basic_vst_plugin
 
 ## Features
 
