@@ -1,4 +1,5 @@
 use atomic_float::AtomicF32;
+
 use nih_plug::editor::ParentWindowHandle;
 use nih_plug::prelude::{util, Editor, GuiContext};
 use nih_plug_iced::*;
@@ -14,7 +15,7 @@ const BACKGROUND_LIGHTER: Color = Color::from_rgb(0.18, 0.18, 0.18);
 
 use crate::BasicParameters;
 
-// Makes sense to also define this here, makes it a bit easier to keep track of
+// Plugin init State Static.
 pub(crate) fn default_state() -> Arc<IcedState> {
     IcedState::from_size(900, 600)
 }
@@ -66,6 +67,7 @@ struct BasicEditor {
     peak_meter: Arc<AtomicF32>,
     gain_slider_state: nih_widgets::param_slider::State,
     peak_meter_state: nih_widgets::peak_meter::State,
+    
 }
 
 // Define Message enum for handling preset selection
@@ -101,7 +103,8 @@ impl IcedEditor for BasicEditor {
     fn context(&self) -> &dyn GuiContext {
         self.context.as_ref()
     }
-
+    
+    // Update user states 
     fn update(
         &mut self,
         _window: &mut WindowQueue,
@@ -112,7 +115,7 @@ impl IcedEditor for BasicEditor {
                 // Update the selected preset name
                 self.header_state.preset_name = preset_name;
             },
-
+            // Message Gain and Peakmeter state change 
             Message::ParamUpdate(message) => self.handle_param_message(message),
         }
         Command::none()
@@ -121,18 +124,23 @@ impl IcedEditor for BasicEditor {
     fn view(&mut self) -> Element<'_, Self::Message> {
         // Define preset options
         let preset_options = vec!["Default".to_string(), "Preset-1".to_string(), "Preset-2".to_string()];
-        // Get the current gain value
-        let gain_value = self.params.gain.value();
-         // Get the current peak meter value
-        let peak_meter_value = self.peak_meter.load(std::sync::atomic::Ordering::Acquire);
         
-        //let knob_svg =Handle::from_path("resources/knob.svg"); // Path to your SVG file
-        let knob_svg = knob::load_knob_svg();
+        // Get the current gain value TODO used the values or not 
+        //let gain_value = self.params.gain.value();
+         // Get the current peak meter value TOTDO use it in the update or view if needed 
+        //let peak_meter_value = self.peak_meter.load(std::sync::atomic::Ordering::Acquire);
+        
+        //let knob_svg =Handle defined in the knob.rs load_svg_knob TODO imploment Interactive rotation of the button Knob. 
+        //let knob_svg = knob::load_knob_svg();
+
+
 
         let content = Column::new()
             .padding(10)
             .spacing(15)
             .align_items(Alignment::Start)
+            
+            // Header Section 
             .push(
                 Container::new(
                     Column::new()
@@ -151,6 +159,7 @@ impl IcedEditor for BasicEditor {
                         )
 
 
+            // Gain and Peak 
             .push(
                 Text::new("Gain")
                     .height(20.into())
@@ -158,11 +167,15 @@ impl IcedEditor for BasicEditor {
                     .horizontal_alignment(alignment::Horizontal::Center)
                     .vertical_alignment(alignment::Vertical::Center),
             )
+            
+            // Gain Slider 
             .push(
                 nih_widgets::ParamSlider::new(&mut self.gain_slider_state, &self.params.gain)
                     .map(Message::ParamUpdate),
-            )
+            )            
             .push(Space::with_height(10.into()))
+            
+            // Peak_Meter  
             .push(
                 nih_widgets::PeakMeter::new(
                     &mut self.peak_meter_state,
@@ -178,9 +191,9 @@ impl IcedEditor for BasicEditor {
                 })
             )
 
-
-
-            .push(Text::new(&format!("PRESET: {}", self.header_state.preset_name)))
+            // Presets Dropdown 
+            .push(Text::new(&format!("PRESET: {}", self.header_state.preset_name)))            
+            // Pick List DropDown 
             .push(
                 PickList::new(
                     &mut self.header_state.pick_list_state,
@@ -189,8 +202,7 @@ impl IcedEditor for BasicEditor {
                     Message::PresetSelected
                 )
             )
-
-
+            // Main Controls
             .push(
                 Container::new(
                     Column::new()
@@ -200,16 +212,14 @@ impl IcedEditor for BasicEditor {
                             Text::new("Controls")
                                 .size(24)
                                 .color(Color::from_rgb(0.9, 0.9, 0.9))  // Almost white text
-                        )
+                        )                
                 )
                 .width(Length::Fill)
                 .padding(15)
                 .style(Style {
                     background: Some(Background::Color(BACKGROUND_LIGHTER)),
                 })
-            );
-
-            
+            );            
 
         Container::new(content)
             .width(Length::Fill)
