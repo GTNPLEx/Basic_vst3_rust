@@ -2,6 +2,8 @@
 members = [
   "basic_plugin",
   "xtask"
+
 ]
 
-workspace.resolver = "1"
+workspace.resolver = "2"
+

@@ -1,6 +1,6 @@
 use nih_plug::prelude::*;
 
-use basic_plugin::Basic;
+use basic_vst3_plugin::Basic;
 
                  
 

@@ -161,6 +161,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "62af46d040ba9df09edc6528dae9d8e49f5f3e82f55b7d2ec31a733c38dbc49d"
 
 [[package]]
+name = "atomic_float"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "628d228f918ac3b82fe590352cc719d30664a0c13ca3a60266fe02c7132d480a"
+
+[[package]]
 name = "atomic_refcell"
 version = "0.1.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -235,12 +241,18 @@ dependencies = [
 ]
 
 [[package]]
-name = "basic_plugin"
+name = "basic_vst3_plugin"
 version = "0.1.0"
 dependencies = [
+ "atomic_float 1.1.0",
+ "atomic_refcell",
+ "baseview 0.1.0 (git+https://github.com/RustAudio/baseview.git?rev=1d9806d5bd92275d0d8142d9c9c90198757b9b25)",
+ "crossbeam",
+ "iced_baseview",
  "nih_plug",
  "nih_plug_iced",
  "num-traits",
+ "serde",
 ]
 
 [[package]]
@@ -1376,7 +1388,7 @@ dependencies = [
  "anyhow",
  "anymap",
  "assert_no_alloc",
- "atomic_float",
+ "atomic_float 0.1.0",
  "atomic_refcell",
  "backtrace",
  "baseview 0.1.0 (git+https://github.com/RustAudio/baseview.git?rev=2c1b1a7b0fef1a29a5150a6a8f6fef6a0cbab8c4)",
